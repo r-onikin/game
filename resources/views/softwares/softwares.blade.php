@@ -13,6 +13,14 @@
                 <td>{{ $software->id }}</td>
                 <td>{{ $software->title }}</td>
             </tr>
+            <div>
+                @if (Auth::id() == $software->user_id)
+                {{-- 投稿削除ボタンのフォーム --}}
+                    {!! Form::open(['route' => ['softwares.destroy', $software->id], 'method' => 'delete']) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                    {!! Form::close() !!}
+                @endif
+            </div>
             @endforeach
         </tbody>
     </table>

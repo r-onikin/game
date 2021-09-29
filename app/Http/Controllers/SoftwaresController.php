@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Software;
+use App\Http\Controller\Auth;
 
 class SoftwaresController extends Controller
 {
@@ -65,6 +66,11 @@ class SoftwaresController extends Controller
         // 認証済みユーザとして作成（リクエストされた値をもとに作成）
         $request->user()->softwares()->create([
             'title' => $request->title,
+            'developer' => $request->developer_id(),
+            'distributor' => $request->distributor_id(),
+            'platform' => $request->platform_id(),
+            'released_day' =>$request->released_day(),
+            'played_day' =>$request->played_day(),
         ]);
 
         // 前のURLへリダイレクトさせる
@@ -80,7 +86,7 @@ class SoftwaresController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -91,7 +97,17 @@ class SoftwaresController extends Controller
      */
     public function edit($id)
     {
-        //
+        // idの値でsoftwareを検索して取得
+        $software = Software::findOrFail($id);
+        
+        // software編集ビューでそれを表示
+        if (\Auth::id() === $software->user_id) {
+            return view('softwares.edit', [
+                'software' => $software,
+            ]);
+        }
+         // 前のURLへリダイレクトさせる
+        return back();
     }
 
     /**
@@ -103,10 +119,25 @@ class SoftwaresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // idの値でsoftwareを検索して取得
+        $software =  Software::findOrFail($id);
+        
+        // メッセージを更新
+        if (\Auth::id() === $software->user_id) {
+            $software->title = $request->title;
+            $software->developer_id = $request->developer_id;
+            $software->distributor_id = $request->distributor_id;
+            $software->platform_id = $request->platform_id;
+            $software->released_day = $request->released_day;
+            $software->played_day = $request->played_day;
+            
+            $software->save();
+        }
+        // トップへリダイレクトさせる
+        return redirect()->route('softwares.show', ['user'=>\Auth::id()]);
     }
 
-    /**
+    /**s
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -114,6 +145,15 @@ class SoftwaresController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // idの値で投稿を検索して取得
+        $software = \App\Software::findOrFail($id);
+
+        // 認証済みユーザ（閲覧者）がその登録の所有者である場合は、登録を削除
+        if (\Auth::id() === $software->user_id) {
+            $software->delete();
+        }
+
+        // 前のURLへリダイレクトさせる
+        return back();
     }
 }

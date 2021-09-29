@@ -13,13 +13,13 @@ class CreateSoftwaresTable extends Migration
      */
     public function up()
     {
-        Schema::create('sofrwares', function (Blueprint $table) {
+        Schema::create('softwares', function (Blueprint $table) {
           $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->unsignedBigInteger('developer_id');
             $table->unsignedBigInteger('distributor_id');
-            $table->unsignedBigInteger('platform_id');
+            $table->string('platform');
             $table->date('released_day');
             $table->date('played_day');
             $table->timestamps();
@@ -28,7 +28,6 @@ class CreateSoftwaresTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('developer_id')->references('id')->on('developers');
             $table->foreign('distributor_id')->references('id')->on('distributors');
-            $table->foreign('platform_id')->references('id')->on('platforms');
         });
     }
 
@@ -39,6 +38,6 @@ class CreateSoftwaresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sofrwares');
+        Schema::dropIfExists('softwares');
     }
 }
