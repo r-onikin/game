@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Software extends Model
 {
+    
+    protected $fillable = ['title', 'platform', 'developer_id', 'distributor_id', 'released_day', 'played_day'];
+    
     /**
      * このソフトウェアを所有するユーザ。（ Userモデルとの関係を定義）
      */
@@ -30,11 +33,5 @@ class Software extends Model
         return $this->belongsTo(Distributor::class);
     }
     
-    /**
-     * このソフトウェアのプラットフォーム。（ Platformモデルとの関係を定義）
-     */
-    public function platform()
-    {
-        return $this->belongsTo(Platform::class);
-    }
+
 }

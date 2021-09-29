@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Developer extends Model
 {
+    protected $fillable = ['name'];
+    
     /**
      * この開発元が所有するソフトウェア。（ Softwareモデルとの関係を定義）
      */
