@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Distributor extends Model
 {
-    //
+    /**
+     * この販売元が所有するソフトウェア。（ Softwareモデルとの関係を定義）
+     */
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
+    }
 }

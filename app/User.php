@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * このユーザが所有するソフトウェア。（ Softwareモデルとの関係を定義）
+     */
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
+    }
+
 }
