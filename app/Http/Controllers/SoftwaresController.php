@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Software;
 use App\Http\Controller\Auth;
+use App\Developer;
+use App\Distributor;
+
 
 class SoftwaresController extends Controller
 {
@@ -16,22 +19,25 @@ class SoftwaresController extends Controller
      */
     public function index()
     {
-        $data = [];
-        if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
-            // ユーザの登録の一覧を作成日時の降順で取得
-            // （後のChapterで他ユーザの投稿も取得するように変更しますが、現時点ではこのユーザの投稿のみ取得します）
-            $softwares = $user->softwares()->orderBy('created_at', 'desc')->paginate(10);
+        // $data = [];
+        // if (\Auth::check()) { // 認証済みの場合
+        //     // 認証済みユーザを取得
+        //     $user = \Auth::user();
+        //     // ユーザの登録の一覧を作成日時の降順で取得
+        //     $softwares = $user->softwares()->orderBy('created_at', 'desc')->paginate(10);
 
-            $data = [
-                'user' => $user,
-                'softwares' => $softwares,
-            ];
-        }
+        //     $data = [
+        //         'user' => $user,
+        //         'softwares' => $softwares,
+        //     ];
+        // }
 
-        // Welcomeビューでそれらを表示
-        return view('welcome', $data);
+        // // Welcomeビューでそれらを表示
+        // return view('welcome', $data);
+        
+        $softwares = Software::all();
+        
+        return view('welcome', ['softwares' => $softwares,]);
     }
     
 
@@ -42,12 +48,16 @@ class SoftwaresController extends Controller
      */
     public function create()
     {
-        // $software = new Software;
+        $software = new Software;
+        $developers = Developer::all();
+        $distributors = Distributor::all();
 
-        // // メッセージ作成ビューを表示
-        // return view('softwares.create', [
-        //     'software' => $software,
-        // ]);
+        // メッセージ作成ビューを表示
+        return view('softwares.create', [
+            'software' => $software,
+            'developers' => $developers,
+            'distributors' => $distributors,
+        ]);
     }
 
     /**

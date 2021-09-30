@@ -14,13 +14,17 @@
                 </div>
                 
                 <div class="form-group">
-                    {!! Form::label('developer_id', '開発元:') !!}
-                    {!! Form::select('developer_id', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('developer', '開発元:') !!}
+                    @foreach($developers as $developer)
+                        {!! Form::select('developer', [ $software->developer_id => $developer->name ], null, ['class' => 'form-control']) !!}
+                    @endforeach
                 </div>
                 
                 <div class="form-group">
-                    {!! Form::label('distributor_id', '発売元:') !!}
-                    {!! Form::select('distributor_id', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('distributor', '販売元:') !!}
+                    @foreach($distributors as $distributor)
+                        {!! Form::select('distributor', [ $software->distributor_id => $distributor->name ], null, ['class' => 'form-control']) !!}
+                    @endforeach
                 </div>
                 
                 <div class="form-group">

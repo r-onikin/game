@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Software extends Model
 {
-    
+    protected $table = 'softwares'; 
     protected $fillable = ['title', 'platform', 'developer_id', 'distributor_id', 'released_day', 'played_day'];
     
     /**

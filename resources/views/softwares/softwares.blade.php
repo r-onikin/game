@@ -29,4 +29,4 @@
 @endif
     
 {{-- ソフトウェア登録ページへのリンク --}}
-{!! link_to_route('sofrwares.create', '新規ソフトウェアの登録', [], ['class' => 'btn btn-primary']) !!}
+{!! link_to_route('softwares.create', '新規ソフトウェアの登録', [], ['class' => 'btn btn-primary']) !!}
