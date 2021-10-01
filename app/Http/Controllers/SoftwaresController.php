@@ -35,9 +35,6 @@ class SoftwaresController extends Controller
         // Welcomeビューでそれらを表示
         return view('welcome', $data);
         
-        // $softwares = Software::all();
-        
-        // return view('welcome', ['softwares' => $softwares,]);
     }
     
 
@@ -119,10 +116,17 @@ class SoftwaresController extends Controller
         // idの値でsoftwareを検索して取得
         $software = Software::findOrFail($id);
         
+        $developers = Developer::all();
+        $distributors = Distributor::all();
+        
+        
         // software編集ビューでそれを表示
         if (\Auth::id() === $software->user_id) {
             return view('softwares.edit', [
                 'software' => $software,
+                'developers' => $developers,
+                'distributors' => $distributors,
+                
             ]);
         }
          // 前のURLへリダイレクトさせる
@@ -146,14 +150,13 @@ class SoftwaresController extends Controller
             $software->title = $request->title;
             $software->developer_id = $request->developer_id;
             $software->distributor_id = $request->distributor_id;
-            $software->platform_id = $request->platform_id;
+            $software->platform = $request->platform;
             $software->released_day = $request->released_day;
             $software->played_day = $request->played_day;
-            
             $software->save();
         }
         // トップへリダイレクトさせる
-        return redirect()->route('softwares.show', ['user'=>\Auth::id()]);
+        return redirect()->route('softwares.index', ['user'=>\Auth::id()]);
     }
 
     /**s

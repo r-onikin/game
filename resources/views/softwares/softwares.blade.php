@@ -3,7 +3,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>id</th>
                 <th>タイトル</th>
                 <th>開発元</th>
                 <th>販売元</th>
@@ -15,8 +14,7 @@
         <tbody>
             @foreach ($softwares as $software)
             <tr>
-                <td>{{ $software->id }}</td>
-                <td>{{ $software->title }}</td>
+                <td>{!! link_to_route('softwares.edit', $software->title, ['software' => $software->id],) !!}</td>
                 <td>{{ $software->developer->name }}</td>
                 <td>{{ $software->distributor->name }}</td>
                 <td>{{ $software->platform }}</td>
