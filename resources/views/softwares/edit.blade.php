@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>タイトル: {{ $software->title }} の編集ページ</h1>
+    <h2>{{ $software->title }} の編集ページ</h2>
 
     <div class="row">
         <div class="col-6">

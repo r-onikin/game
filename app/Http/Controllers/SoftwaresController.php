@@ -102,7 +102,13 @@ class SoftwaresController extends Controller
      */
     public function show($id)
     {
-
+        $software = Software::findOrFail($id);
+        // $developers = Developer::all();
+        // $distributors = Distributor::all();
+        
+        return view('softwares.show', [
+            'software' => $software,
+        ]);
     }
 
     /**
