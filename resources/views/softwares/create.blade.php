@@ -14,17 +14,21 @@
                 </div>
                 
                 <div class="form-group">
-                    {!! Form::label('developer', '開発元:') !!}
-                    @foreach($developers as $developer)
-                        {!! Form::select('developer', [ $software->developer_id => $developer->name ], null, ['class' => 'form-control']) !!}
-                    @endforeach
+                    {!! Form::label('developer_id', '開発元:') !!}
+                    <select class="form-control" name="developer_id">
+                        @foreach($developers as $developer)
+                            <option value="{{ $developer->id }}">{{ $developer->name }}</option>
+                        @endforeach  
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                    {!! Form::label('distributor', '販売元:') !!}
-                    @foreach($distributors as $distributor)
-                        {!! Form::select('distributor', [ $software->distributor_id => $distributor->name ], null, ['class' => 'form-control']) !!}
-                    @endforeach
+                    {!! Form::label('distributor_id', '販売元:') !!}
+                    <select class="form-control" name="distributor_id">
+                        @foreach($distributors as $distributor)
+                            <option value="{{ $distributor->id }}">{{ $distributor->name }}</option>
+                        @endforeach  
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -34,12 +38,12 @@
                 
                 <div class="form-group">
                     {!! Form::label('released_day', '発売日:') !!}
-                    {!! Form::datetimeLocal('released_day', null, ['class' => 'form-control']) !!}
+                    {!! Form::date('released_day', null, ['class' => 'form-control']) !!}
                 </div>
                 
                 <div class="form-group">
                     {!! Form::label('played_day', 'プレイした日:') !!}
-                    {!! Form::datetimeLocal('played_day', null, ['class' => 'form-control']) !!}
+                    {!! Form::date('played_day', null, ['class' => 'form-control']) !!}
                 </div>
                 
 

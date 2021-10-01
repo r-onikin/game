@@ -19,25 +19,25 @@ class SoftwaresController extends Controller
      */
     public function index()
     {
-        // $data = [];
-        // if (\Auth::check()) { // 認証済みの場合
-        //     // 認証済みユーザを取得
-        //     $user = \Auth::user();
-        //     // ユーザの登録の一覧を作成日時の降順で取得
-        //     $softwares = $user->softwares()->orderBy('created_at', 'desc')->paginate(10);
+        $data = [];
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの登録の一覧を作成日時の降順で取得
+            $softwares = $user->softwares()->orderBy('created_at', 'desc')->paginate(10);
 
-        //     $data = [
-        //         'user' => $user,
-        //         'softwares' => $softwares,
-        //     ];
-        // }
+            $data = [
+                'user' => $user,
+                'softwares' => $softwares,
+            ];
+        }
 
-        // // Welcomeビューでそれらを表示
-        // return view('welcome', $data);
+        // Welcomeビューでそれらを表示
+        return view('welcome', $data);
         
-        $softwares = Software::all();
+        // $softwares = Software::all();
         
-        return view('welcome', ['softwares' => $softwares,]);
+        // return view('welcome', ['softwares' => $softwares,]);
     }
     
 
@@ -49,14 +49,22 @@ class SoftwaresController extends Controller
     public function create()
     {
         $software = new Software;
+        $developer = new Developer;
+        $distributor = new Distributor;
+        // $developers = $developers->software()::all();
+        $softwares = Software::all();
         $developers = Developer::all();
         $distributors = Distributor::all();
 
         // メッセージ作成ビューを表示
         return view('softwares.create', [
             'software' => $software,
+            'softwares' => $softwares,
             'developers' => $developers,
             'distributors' => $distributors,
+            'developer' => $developer,
+            'distributor' => $distributor,
+            
         ]);
     }
 
@@ -73,18 +81,19 @@ class SoftwaresController extends Controller
             'title' => 'required|max:255',
         ]);
         
+        // dd($request);
         // 認証済みユーザとして作成（リクエストされた値をもとに作成）
         $request->user()->softwares()->create([
             'title' => $request->title,
-            'developer' => $request->developer_id(),
-            'distributor' => $request->distributor_id(),
-            'platform' => $request->platform_id(),
-            'released_day' =>$request->released_day(),
-            'played_day' =>$request->played_day(),
+            'developer_id' => $request->developer_id,
+            'distributor_id' => $request->distributor_id,
+            'platform' => $request->platform,
+            'released_day' =>$request->released_day,
+            'played_day' =>$request->played_day,
         ]);
-
-        // 前のURLへリダイレクトさせる
-        return back();
+        
+        // ユーザートップへリダイレクトさせる
+        return redirect()->route('softwares.index', ['user'=>\Auth::id()]);
 
     }
 
